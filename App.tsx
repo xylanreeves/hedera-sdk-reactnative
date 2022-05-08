@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { MY_ACCOUNT_ID, MY_PRIVATE_KEY } from '@env'
 
+import { NavigationContainer } from '@react-navigation/native'
+
+import Homescreen from './screens/Homescreen'
+
 import {
   Client,
   PrivateKey,
@@ -12,6 +16,7 @@ import {
 
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 export default function App() {
   const [mAccount, setmAccount] = useState()
@@ -44,34 +49,36 @@ export default function App() {
         .setInitialBalance(Hbar.fromTinybars(1000))
         .execute(_client)
 
-        // Get the new account ID
-const getReceipt = await newAccount.getReceipt(_client);
-const newAccountId = getReceipt.accountId;
-setmAccount(newAccountId)
+      // Get the new account ID
+      const getReceipt = await newAccount.getReceipt(_client)
+      const newAccountId = getReceipt.accountId
+      setmAccount(newAccountId)
 
-//Log the account ID
-console.log("The new account ID is: " + newAccountId);
-
+      //Log the account ID
+      console.log('The new account ID is: ' + newAccountId)
     } catch (error) {
       console.error(error)
     }
   }
 
+  const Stack = createNativeStackNavigator();
 
   return (
-    <View style={styles.container}>
-      <Text>You new Account Id:</Text>
-      {mAccount && <Text>{mAccount.toString()}</Text>}
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      {' '}
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Homescreen} />
+      </Stack.Navigator>
+     
+    </NavigationContainer>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// })
