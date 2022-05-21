@@ -38,26 +38,26 @@ const MnemonicInput = ({
 }) => {
   return (
     <>
-      <View style={styles.mainContainer}>
+      <View style={styles.outerView}>
+        <View style={styles.mainContainer}>
+          <View style={styles.mnemonicIdContainer}>
+            <Text style={styles.mnemonicId}>{mnemonicId}</Text>
+          </View>
 
-
-        <View style={styles.mnemonicIdContainer}>
-          <Text style={styles.mnemonicId}>{mnemonicId}</Text>
+          <TextInput
+            style={[
+              styles.inputBox,
+              _touched && _errors ? styles.textInvalid : styles.textValid,
+            ]}
+            placeholderTextColor="grey"
+            onChangeText={_onChangeText}
+            onBlur={_onBlur}
+            value={_value}
+          />
         </View>
-
-        <TextInput
-          style={[
-            styles.inputBox,
-            _touched && _errors ? styles.textInvalid : styles.textValid,
-          ]}
-          placeholderTextColor="grey"
-          onChangeText={_onChangeText}
-          onBlur={_onBlur}
-          value={_value}
-          
-        />
-
-
+        <View style={styles.errorContainer}>
+          {_touched && _errors &&  <Text style={styles.errorText}>Error</Text>}
+        </View>
       </View>
     </>
   )
@@ -66,6 +66,9 @@ const MnemonicInput = ({
 export default MnemonicInput
 
 const styles = StyleSheet.create({
+  outerView: {
+    flexDirection: 'column',
+  },
   mainContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -104,4 +107,11 @@ const styles = StyleSheet.create({
     // borderRadius: 100,
     padding: 4,
   },
+  errorContainer:{
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorText:{
+    color: 'rgb(156,163,175)',
+  }
 })
