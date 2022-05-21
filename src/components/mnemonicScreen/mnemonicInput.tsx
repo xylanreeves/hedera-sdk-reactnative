@@ -28,21 +28,36 @@ export const initialValues = {
   mnemonic24: '',
 }
 
-const MnemonicInput = ({ mnemonicId, _onChangeText, _onBlur, _value }) => {
+const MnemonicInput = ({
+  mnemonicId,
+  _onChangeText,
+  _onBlur,
+  _value,
+  _errors,
+  _touched,
+}) => {
   return (
     <>
       <View style={styles.mainContainer}>
+
+
         <View style={styles.mnemonicIdContainer}>
           <Text style={styles.mnemonicId}>{mnemonicId}</Text>
         </View>
 
         <TextInput
-          style={styles.inputBox}
+          style={[
+            styles.inputBox,
+            _touched && _errors ? styles.textInvalid : styles.textValid,
+          ]}
           placeholderTextColor="grey"
           onChangeText={_onChangeText}
           onBlur={_onBlur}
           value={_value}
+          
         />
+
+
       </View>
     </>
   )
@@ -57,25 +72,31 @@ const styles = StyleSheet.create({
     // justifyContent: 'flex-end',
     // backgroundColor: 'green',
     marginVertical: 4,
-
   },
   inputBox: {
+    fontSize: 16,
     backgroundColor: 'rgb(31, 41, 55)',
     color: 'rgb(156, 163, 175)',
     padding: 8,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: 'rgba(107,114,128, 0.6)',
     width: 150,
     marginLeft: 8,
   },
+  textValid: {
+    borderColor: 'rgba(107,114,128, 0.6)',
+  },
+  textInvalid: {
+    //darkRedBorder
+    borderColor: '#7f1d1d',
+  },
   mnemonicIdContainer: {
-   backgroundColor: 'rgb(31, 41, 55)',
+    backgroundColor: 'rgb(31, 41, 55)',
     borderRadius: 100,
     width: 32,
     height: 32,
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
   },
   mnemonicId: {
     color: 'rgb(156,163,175)',
