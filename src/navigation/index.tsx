@@ -5,6 +5,7 @@ import HomeScreen from '../screens/HomeScreen'
 import LoginScreen from '../screens/LoginScreen'
 import MnemonicScreen from '../screens/MnemonicScreen'
 import SettingScreen from '../screens/SettingScreen'
+import WelcomeScreen from '../screens/WelcomeScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -14,8 +15,17 @@ const commonOptions = {
 
 const RootNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Mnemonic">
-      <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={commonOptions}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={commonOptions}
+      />
       <Stack.Screen
         name="Login"
         component={LoginScreen}
