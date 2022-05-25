@@ -40,7 +40,7 @@ const WelcomeScreen = () => {
   }
 
   const hederaClientValidationSchema = Yup.object().shape({
-    accountId: Yup.number().required('Required').typeError('Invalid Account Id'),
+    accountId: Yup.string().required('Required').typeError('Invalid Account Id'),
     privateKey: Yup.string().required('Required').typeError('Invalid Private Key'),
   })
 
@@ -54,7 +54,7 @@ const WelcomeScreen = () => {
       <View style={styles.textInputContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.labelFont}>
-            You can use your own testnet Account Id and Private Key
+            You can use your developer's testnet Account Id and Private Key
           </Text>
           <Text style={styles.labelFont}>
             Or proceed with the app's default keys

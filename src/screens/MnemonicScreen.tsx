@@ -18,7 +18,7 @@ import MnemonicInput, {
   initialValues,
 } from '../components/mnemonicScreen/mnemonicInput'
 
-const mnemonicValidationSchema = Yup.object({
+const mnemonicValidationSchema = Yup.object().shape({
   mnemonic: Yup.number()
     .max(10, 'Uhm...what are you doing?')
     .required('Required'),
