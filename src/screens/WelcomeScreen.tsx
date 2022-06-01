@@ -10,28 +10,58 @@ import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { color } from '../components/colors'
 import AppLoading from 'expo-app-loading'
-import * as Font from 'expo-font'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import { AccountId, Client, PrivateKey } from '@hashgraph/sdk'
+import { useDispatch } from 'react-redux'
+import { setHederaClient } from '../features/hedera/hederaSlice'
+import { setIsSignedIn } from '../features/login/loginSlice'
+import { saveInSecureStore } from '../app/expoSecureStore'
+import AppLogo from '../components/appLogo/appLogo'
 
-let customFonts = {
-  'VarelaRound-Regular': require('../../assets/fonts/VarelaRound-Regular.ttf'),
-}
 
 const WelcomeScreen = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false)
 
-  const _loadFontsAsync = async () => {
-    await Font.loadAsync(customFonts)
-    setFontsLoaded(true)
-  }
+  // const userAccountId = useSelector(
+  //   (state: RootState) => state.user.userAccountId,
+  // )
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    _loadFontsAsync()
-  })
+ 
 
-  if (!fontsLoaded) {
-    return <AppLoading />
+ 
+
+  const customClientLogin = (values: {
+    accountId: string
+    privateKey: string
+  }) => {
+    // console.error(values)
+
+    //init client with user's testnet credentials
+    //navigate to homescreen with user info
+    //set isSignedIn to true, reactNavigation will handle the navigation to homescreen.
+
+    //save user's credentials to expo-secure
+
+    try {
+      var client = Client.forTestnet()
+      client.setOperator(
+        AccountId.fromString(values.accountId),
+        PrivateKey.fromString(values.privateKey),
+      )
+      console.error('client: ', client)
+      dispatch(setHederaClient(client))
+      //save and persist client in expo-secure-store
+      saveInSecureStore('hederaTestnetClient', client)
+
+      if (client) {
+        //this will automatically naviagate to homescreen
+        dispatch(setIsSignedIn(true))
+      }
+    } catch (error) {
+      console.error(error)
+      alert(error)
+    }
   }
 
   const _initialValues = {
@@ -40,17 +70,20 @@ const WelcomeScreen = () => {
   }
 
   const hederaClientValidationSchema = Yup.object().shape({
-    accountId: Yup.string().required('Required').typeError('Invalid Account Id'),
-    privateKey: Yup.string().required('Required').typeError('Invalid Private Key'),
+    accountId: Yup.string()
+      .required('Required')
+      .typeError('Invalid Account Id'),
+    privateKey: Yup.string()
+      .required('Required')
+      .typeError('Invalid Private Key'),
   })
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.marginView}></View>
-      <Text style={styles.titleFont}>Shao</Text>
-      <Text style={styles.subTitleFont}>Wallet</Text>
 
+      <AppLogo />
       <View style={styles.textInputContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.labelFont}>
@@ -65,7 +98,7 @@ const WelcomeScreen = () => {
           <Formik
             initialValues={_initialValues}
             validationSchema={hederaClientValidationSchema}
-            onSubmit={(values) => console.error(values)}
+            onSubmit={(values) => customClientLogin(values)}
           >
             {({
               handleChange,
@@ -81,7 +114,9 @@ const WelcomeScreen = () => {
                 <TextInput
                   style={[
                     styles.inputBox,
-                    touched.accountId && errors.accountId && styles.borderInvalid,
+                    touched.accountId && errors.accountId
+                      ? styles.borderInvalid
+                      : styles.borderNeutral,
                   ]}
                   placeholderTextColor="grey"
                   placeholder="Account Id"
@@ -90,16 +125,16 @@ const WelcomeScreen = () => {
                   value={values.accountId}
                 />
                 {touched.accountId && errors.accountId && (
-                  <View style={{width: 240}}>
+                  <View style={{ width: 240 }}>
                     <Text style={styles.errorText}>{errors.accountId}</Text>
                   </View>
                 )}
                 <TextInput
                   style={[
                     styles.inputBox,
-                    touched.privateKey &&
-                      errors.privateKey &&
-                      styles.borderInvalid,
+                    touched.privateKey && errors.privateKey
+                      ? styles.borderInvalid
+                      : styles.borderNeutral,
                   ]}
                   placeholderTextColor="grey"
                   placeholder="Private Key"
@@ -108,17 +143,26 @@ const WelcomeScreen = () => {
                   value={values.privateKey}
                 />
                 {touched.privateKey && errors.privateKey && (
-                  <View style={{width: 240}}>
+                  <View style={{ width: 240 }}>
                     <Text style={styles.errorText}>{errors.privateKey}</Text>
                   </View>
                 )}
-                <TouchableOpacity disabled={values.accountId == "" || values.privateKey == "" || !isValid}>
+                {/* This would lead the user to Homescreen */}
+                <TouchableOpacity
+                  disabled={
+                    values.accountId == '' ||
+                    values.privateKey == '' ||
+                    !isValid
+                  }
+                  onPress={() => handleSubmit()}
+                >
                   <View
                     style={[
                       styles.submitbutton,
-                      touched.accountId && touched.privateKey && isValid ? '' : styles.disabledButton,
+                      touched.accountId && touched.privateKey && isValid
+                        ? styles.submitbutton
+                        : styles.disabledButton,
                     ]}
-                    onPress={handleSubmit}
                   >
                     <Text style={styles.submitButtonText}>Submit</Text>
                   </View>
@@ -127,14 +171,17 @@ const WelcomeScreen = () => {
             )}
           </Formik>
         </KeyboardAvoidingView>
-        {/* / / / / / / */}
+        {/* / / / Formik Ends / / / */}
       </View>
 
       <View style={styles.breakLine}></View>
 
-      <View></View>
-      <TouchableOpacity style={styles.defaultButton}>
-        <Text style={styles.submitButtonText}>Proceed with Default Keys</Text>
+      {/* This would lead the user to the login screen */}
+      <TouchableOpacity
+        style={styles.defaultButton}
+        onPress={() => alert('TODO: Should navigate to mnemonic login screen')}
+      >
+        <Text style={styles.submitButtonText}>Login with Mnemonic Phrase</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   )
@@ -147,19 +194,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.primaryDarkGray,
     alignItems: 'center',
-  },
-  titleFont: {
-    fontSize: 42,
-    color: 'white',
-    fontFamily: 'VarelaRound-Regular',
-    marginRight: 32,
-  },
-  subTitleFont: {
-    fontSize: 16,
-    color: 'gray',
-    fontFamily: 'VarelaRound-Regular',
-    marginLeft: 32,
-    marginTop: -8,
   },
   marginView: {
     height: '25%',
@@ -178,6 +212,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     width: 240,
+    // marginTop: 4
   },
   labelContainer: {},
   labelFont: {
@@ -229,6 +264,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(248, 113, 113)',
     // borderColor: 'rgb(239, 68, 68)'
   },
+  borderNeutral: {
+    borderColor: 'transparent',
+    // borderColor: 'rgba(255,255,255,0.2)',
+  },
   errorText: {
     color: 'rgb(248, 113, 113)',
     // color: 'rgb(239, 68, 68)',
@@ -238,4 +277,5 @@ const styles = StyleSheet.create({
   disabledButton: {
     backgroundColor: 'rgba(255,255,255, 0.5)',
   },
+  noStyle: {},
 })

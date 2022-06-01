@@ -10,8 +10,11 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { color } from '../components/colors'
 
 const HomeScreen = () => {
-  const userAccountId = useSelector(
-    (state: RootState) => state.user.userAccountId,
+  const userPublicKey = useSelector(
+    (state: RootState) => state.user.userPublicKey,
+  )
+  const userBalance = useSelector(
+    (state: RootState) => state.user.userBalance,
   )
   const dispatch = useDispatch()
 

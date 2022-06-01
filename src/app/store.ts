@@ -1,9 +1,13 @@
 import userReducer from '../features/wallet/userSlice'
+import loginReducer from '../features/login/loginSlice'
+import hederaReducer from '../features/hedera/hederaSlice'
 import { configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
-    user: userReducer
+    user: userReducer,
+    login: loginReducer,
+    hedera: hederaReducer
   },
 })
 

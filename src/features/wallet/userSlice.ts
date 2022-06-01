@@ -1,6 +1,4 @@
-import { AccountId, PrivateKey } from '@hashgraph/sdk'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
 
 // export interface UserState {
 //     userAccountId: AccountId;
@@ -9,27 +7,23 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 // }
 
 const initialState = {
-    userAccountId: null,
-    userPrivateKey: null,
-    userBalance: 0,
+  userPublicKey: null,
+  userBalance: 0,
 }
 
 export const userSlice = createSlice({
-    name: 'user',
-    initialState,
-    reducers: {
-        updateUserAccountId: (state, action) => {
-            state.userAccountId = action.payload
-        },
-        updateUserPrivateKey: (state, action) => {
-            state.userPrivateKey = action.payload
-        },
-        updateUserBalance : (state, action) => {
-            state.userBalance = action.payload
-        },
+  name: 'user',
+  initialState,
+  reducers: {
+    updateUserPublicKey: (state, action) => {
+      state.userPublicKey = action.payload
     },
+    updateUserBalance: (state, action) => {
+      state.userBalance = action.payload
+    },
+  },
 })
 
-export const { updateUserAccountId, updateUserPrivateKey, updateUserBalance } = userSlice.actions
+export const { updateUserPublicKey, updateUserBalance } = userSlice.actions
 
 export default userSlice.reducer
