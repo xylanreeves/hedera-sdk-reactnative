@@ -32,6 +32,22 @@ const AppLogo = () => {
 }
 
 export const Tagline = () => {
+
+  const [fontsLoaded, setFontsLoaded] = useState(false)
+  const _loadFontsAsync = async () => {
+    await Font.loadAsync(customFonts)
+    setFontsLoaded(true)
+  }
+
+  useEffect(() => {
+    _loadFontsAsync()
+  })
+
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
+
   return (
     <View style={styles.taglineContainer}>
       <Text style={styles.taglineFont}>An HBAR crypto wallet for devs and users alike</Text>
