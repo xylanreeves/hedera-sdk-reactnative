@@ -6,4 +6,10 @@ export const color = {
   lightGrayBorder: 'rgba(107,114,128, 0.6)',
   fontGray: 'rgb(156,163,175)',
 
+
+  //shades of white
+  white: 'rgba(255, 255, 255, 1)',
+  whiteOp9: 'rgba(255, 255, 255, .9)',
+  whiteOp8: 'rgba(255, 255, 255, .8)',
+  whiteOp7: 'rgba(255, 255, 255, .7)'
 }

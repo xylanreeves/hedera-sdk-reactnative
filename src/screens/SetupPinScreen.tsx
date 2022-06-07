@@ -57,7 +57,17 @@ const SetupPinScreen = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={passwordSchema}
-          onSubmit={(values) => console.error(values)}
+          onSubmit={(values) => console.error(values)
+              //use the pin along with the salt
+              //generate salt
+              //prepend the password with salt and use it to store user secrets
+              
+              //navigate to 'import or create new wallet' - 'NewWalletScreen'
+              //
+
+              
+
+          }
         >
           {({
             handleChange,
@@ -121,9 +131,9 @@ const SetupPinScreen = () => {
                   secureTextEntry={true}
                   numberOfLines={1}
                   maxLength={6}
-                  returnKeyType='next'
+                  returnKeyType="next"
                   onSubmitEditing={() => {
-                    confirmPinRef.current.focus();
+                    confirmPinRef.current.focus()
                   }}
                 />
                 {touched.pin && errors.pin && (
@@ -149,12 +159,15 @@ const SetupPinScreen = () => {
                   secureTextEntry={true}
                   numberOfLines={1}
                   maxLength={6}
-                  returnKeyType='done'
+                  returnKeyType="done"
                   onSubmitEditing={() => {
-                    if( values.pin !== '' && values.confirmPin !== '' && isValid){
+                    if (
+                      values.pin !== '' &&
+                      values.confirmPin !== '' &&
+                      isValid
+                    ) {
                       handleSubmit()
                     }
-
                   }}
                 />
                 {touched.confirmPin && errors.confirmPin && (
@@ -224,11 +237,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 320,
     textAlign: 'center',
-    // marginTop: 4
   },
 
   submitbutton: {
-
     fontSize: 16,
     borderColor: 'rgba(255,255,255,0.2)',
     padding: 10,

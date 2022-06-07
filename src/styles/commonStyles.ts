@@ -25,4 +25,15 @@ export const commonStyles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255, 0.5)',
   },
   noStyle: {},
+  CustomAppButton: {
+    borderColor: 'rgba(255,255,255,0.2)',
+    padding: 10,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginTop: 16,
+    width: 319,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 })

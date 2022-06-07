@@ -4,24 +4,10 @@ import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font'
 import { color } from '../colors'
 
-let customFonts = {
-  'VarelaRound-Regular': require('../../../assets/fonts/VarelaRound-Regular.ttf'),
-}
+
 
 const AppLogo = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false)
-  const _loadFontsAsync = async () => {
-    await Font.loadAsync(customFonts)
-    setFontsLoaded(true)
-  }
 
-  useEffect(() => {
-    _loadFontsAsync()
-  })
-
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
 
   return (
     <View style={styles.logoContainer}>
@@ -32,20 +18,6 @@ const AppLogo = () => {
 }
 
 export const Tagline = () => {
-
-  const [fontsLoaded, setFontsLoaded] = useState(false)
-  const _loadFontsAsync = async () => {
-    await Font.loadAsync(customFonts)
-    setFontsLoaded(true)
-  }
-
-  useEffect(() => {
-    _loadFontsAsync()
-  })
-
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
 
 
   return (
