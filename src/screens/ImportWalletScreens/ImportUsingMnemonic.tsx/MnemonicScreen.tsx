@@ -16,7 +16,7 @@ import {
 import * as Yup from 'yup'
 import MnemonicInput, {
   initialValues,
-} from '../components/mnemonicScreen/mnemonicInput'
+} from '../../../components/mnemonicScreen/mnemonicInput'
 
 const mnemonicValidationSchema = Yup.object().shape({
   mnemonic: Yup.number()

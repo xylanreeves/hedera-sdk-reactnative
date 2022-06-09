@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { color } from '../components/colors'
-import { commonStyles } from '../styles/commonStyles'
+import { color } from '../../components/colors'
+import { commonStyles } from '../../styles/commonStyles'
 
 const ImportWalletScreen = ({navigation}) => {
     return (
@@ -61,6 +61,8 @@ const ImportWalletScreen = ({navigation}) => {
         height: '32%',
         padding: 16,
         justifyContent: 'center',
+        borderBottomWidth: 0.2,
+        borderBottomColor: color.lightGrayBorder
       },
     })
     

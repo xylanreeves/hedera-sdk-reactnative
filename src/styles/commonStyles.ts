@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { color } from '../components/colors'
 
 export const commonStyles = StyleSheet.create({
   alignJustifyCenter: {
@@ -35,5 +36,14 @@ export const commonStyles = StyleSheet.create({
     width: 319,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  headerView: {
+    width: '100%',
+    backgroundColor: color.transparentOverlay,
+    height: '32%',
+    padding: 16,
+    justifyContent: 'center',
+    borderBottomWidth: 0.2,
+    borderBottomColor: color.lightGrayBorder
+  },
 })

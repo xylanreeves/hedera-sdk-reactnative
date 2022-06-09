@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import React from 'react'
-import { color } from '../components/colors'
-import { commonStyles } from '../styles/commonStyles'
-import { Formik, yupToFormErrors } from 'formik'
+import React, { useRef } from 'react'
+import { color } from '../../components/colors'
+import { commonStyles } from '../../styles/commonStyles'
+import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 const ImportUsingPrvKeyScreen = ({ navigation }) => {
+
+
+  const prvKeyRef = useRef(null)
+
   const initialValues = {
     accountId: '',
     privateKey: '',
@@ -24,8 +28,8 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
       .required('Please enter a valid Account ID')
       .typeError('Invalid Account ID'),
     privateKey: Yup.string()
-      .required('Please enter a valid private key')
-      .typeError('Invalid private key'),
+      .required('Please enter a valid Private Key')
+      .typeError('Invalid Private Key'),
   })
 
   return (
@@ -122,7 +126,15 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
                     onBlur={handleBlur('accountId')}
                     value={values.accountId}
                     keyboardType="numeric"
+                    onSubmitEditing={() => {
+                      prvKeyRef.current.focus()
+                    }}
                   />
+                  {touched.accountId && errors.accountId && (
+                    <View style={{ width: 240 }}>
+                      <Text style={commonStyles.errorText}>{errors.accountId}</Text>
+                    </View>
+                  )}
                 </View>
                 {/* Enter your Private Key */}
                 <View style={{ marginTop: 32 }}>
@@ -133,13 +145,20 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
                     Keep this secret!
                   </Text>
                   <TextInput
+                  ref={prvKeyRef}
                     style={styles.inputBox}
                     placeholder=""
                     placeholderTextColor={color.lightGray}
                     onChangeText={handleChange('privateKey')}
                     onBlur={handleBlur('privateKey')}
                     value={values.privateKey}
+
                   />
+                       {touched.privateKey && errors.privateKey && (
+                    <View style={{ width: 240 }}>
+                      <Text style={commonStyles.errorText}>{errors.privateKey}</Text>
+                    </View>
+                  )}
                 </View>
               </View>
             </KeyboardAvoidingView>
@@ -155,17 +174,18 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
             justifyContent: 'center',
             paddingHorizontal: 16,
             borderTopWidth: 0.2,
-            borderTopColor: color.lightGrayBorder
+            borderTopColor: color.lightGrayBorder,
           }}
         >
           {/* Back Button */}
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => navigation.pop('ImportPrv')}
+            onPress={() => navigation.goBack()}
           >
             <Text style={styles.buttonText}>Back</Text>
           </TouchableOpacity>
 
+          {/* transparent width between buttons */}
           <View style={{ width: 16 }}></View>
 
           {/* Submit Button  */}
@@ -196,7 +216,7 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: 'center',
     borderBottomWidth: 0.2,
-    borderBottomColor: color.lightGrayBorder
+    borderBottomColor: color.lightGrayBorder,
   },
 
   inputBox: {

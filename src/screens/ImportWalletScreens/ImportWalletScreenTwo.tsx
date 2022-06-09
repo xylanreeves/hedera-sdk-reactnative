@@ -8,28 +8,22 @@ import {
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { color } from '../components/colors'
+import { color } from '../../components/colors'
 import AppLoading from 'expo-app-loading'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { AccountId, Client, PrivateKey } from '@hashgraph/sdk'
 import { useDispatch } from 'react-redux'
-import { setHederaClient } from '../features/hedera/hederaSlice'
-import { setIsSignedIn } from '../features/login/loginSlice'
-import { saveInSecureStore } from '../app/expoSecureStore'
-import AppLogo from '../components/appLogo/appLogo'
+import { setHederaClient } from '../../features/hedera/hederaSlice'
+import { setIsSignedIn } from '../../features/login/loginSlice'
+import { saveInSecureStore } from '../../app/expoSecureStore'
+import AppLogo, { Tagline } from '../../components/appLogo/appLogo'
 
-
-const WelcomeScreen = () => {
-
+const ImportWalletScreenTwo = () => {
   // const userAccountId = useSelector(
   //   (state: RootState) => state.user.userAccountId,
   // )
   const dispatch = useDispatch()
-
- 
-
- 
 
   const customClientLogin = (values: {
     accountId: string
@@ -84,13 +78,11 @@ const WelcomeScreen = () => {
       <View style={styles.marginView}></View>
 
       <AppLogo />
+      <Tagline />
       <View style={styles.textInputContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.labelFont}>
-            You can use your developer's testnet Account Id and Private Key
-          </Text>
-          <Text style={styles.labelFont}>
-            Or proceed with the app's default keys
+            Import an existing account using your Private Key or Seed phrase.
           </Text>
         </View>
         {/* / / / Formik / / / */}
@@ -119,7 +111,7 @@ const WelcomeScreen = () => {
                       : styles.borderNeutral,
                   ]}
                   placeholderTextColor="grey"
-                  placeholder="Account Id"
+                  placeholder="Account ID"
                   onChangeText={handleChange('accountId')}
                   onBlur={handleBlur('accountId')}
                   value={values.accountId}
@@ -187,7 +179,7 @@ const WelcomeScreen = () => {
   )
 }
 
-export default WelcomeScreen
+export default ImportWalletScreenTwo
 
 const styles = StyleSheet.create({
   container: {
@@ -199,7 +191,7 @@ const styles = StyleSheet.create({
     height: '25%',
   },
   textInputContainer: {
-    marginTop: 164,
+    marginTop: 128,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -211,10 +203,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
     borderRadius: 8,
-    width: 240,
+    width: 320,
     // marginTop: 4
   },
-  labelContainer: {},
+  labelContainer: {
+    width: 320,
+  },
   labelFont: {
     color: 'gray',
   },
@@ -231,7 +225,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
     borderRadius: 8,
-    width: 240,
+    width: 320,
     marginTop: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -252,7 +246,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
     borderRadius: 8,
-    width: 240,
+    width: 320,
     marginTop: 32,
     alignItems: 'center',
     justifyContent: 'center',

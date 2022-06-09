@@ -10,16 +10,18 @@ import { setIsSignedIn } from '../features/login/loginSlice'
 //Screens
 import HomeScreen from '../screens/HomeScreen'
 import LoginScreen from '../screens/LoginScreen'
-import MnemonicScreen from '../screens/MnemonicScreen'
-import NewWalletScreen from '../screens/NewWalletScreen'
+import MnemonicScreen from '../screens/ImportWalletScreens/ImportUsingMnemonic.tsx/MnemonicScreen'
+import NewWalletScreen from '../screens/ImportWalletScreens/NewWalletScreen'
 import SettingScreen from '../screens/SettingScreen'
 import SetupPinScreen from '../screens/SetupPinScreen'
-import WelcomeScreen from '../screens/WelcomeScreen'
+import WelcomeScreen from '../screens/ImportWalletScreens/ImportWalletScreenTwo'
 //Fonts
 import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font'
-import ImportWalletScreen from '../screens/ImportWalletScreen'
-import ImportUsingPrvKeyScreen from '../screens/ImportUsingPrvKeyScreen'
+import ImportWalletScreen from '../screens/ImportWalletScreens/ImportWalletScreen'
+import ImportUsingPrvKeyScreen from '../screens/ImportWalletScreens/ImportUsingPrvKeyScreen'
+import ImportWalletScreenTwo from '../screens/ImportWalletScreens/ImportWalletScreenTwo'
+import EnterAccountIdScreen from '../screens/ImportWalletScreens/ImportUsingMnemonic.tsx/EnterAccountIdScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -59,7 +61,7 @@ const RootNavigator = () => {
   }
 
   return (
-    <Stack.Navigator initialRouteName="ImportPrv">
+    <Stack.Navigator initialRouteName="EnterAccountId">
       {isSignedIn ? (
         <>
           <Stack.Screen
@@ -75,11 +77,7 @@ const RootNavigator = () => {
             component={SetupPinScreen}
             options={commonOptions}
           />
-          <Stack.Screen
-            name="Welcome"
-            component={WelcomeScreen}
-            options={commonOptions}
-          />
+
           <Stack.Screen
             name="NewWallet"
             component={NewWalletScreen}
@@ -87,14 +85,21 @@ const RootNavigator = () => {
           />
           {/* Choose privateKey or mnemonic to import your account */}
 
-
           <Stack.Screen
             name="ImportWallet"
             component={ImportWalletScreen}
             options={commonOptions}
-          />    
+          />
 
-          {/* Import using Private Keys */}      
+          {/* I created two Import wallet screens lol
+              might use second somewhere
+          */}
+          <Stack.Screen
+            name="ImportWalletTwo"
+            component={ImportWalletScreenTwo}
+            options={commonOptions}
+          />
+          {/* Import using Private Keys */}
 
           <Stack.Screen
             name="ImportPrv"
@@ -103,15 +108,24 @@ const RootNavigator = () => {
           />
 
           <Stack.Screen
-            name="Login"
-            component={LoginScreen}
+            name="EnterAccountId"
+            component={EnterAccountIdScreen}
             options={commonOptions}
           />
+
           <Stack.Screen
             name="Mnemonic"
             component={MnemonicScreen}
             options={commonOptions}
           />
+
+          {/* Login Screen to unlock the wallet via user's pin/password */}
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={commonOptions}
+          />
+
           <Stack.Screen name="Settings" component={SettingScreen} />
         </>
       )}
