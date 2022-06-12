@@ -14,8 +14,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 const ImportUsingPrvKeyScreen = ({ navigation }) => {
-
-
   const prvKeyRef = useRef(null)
 
   const initialValues = {
@@ -26,6 +24,8 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
     accountId: Yup.string()
       .required('Please enter a valid Account ID')
+      .matches(/^0\.0\.[0-9]+$/, 'Invalid Account ID')
+      .min(5, 'Please enter a valid Account ID')
       .typeError('Invalid Account ID'),
     privateKey: Yup.string()
       .required('Please enter a valid Private Key')
@@ -62,7 +62,7 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
         </View>
       </View>
       {/* Content Body */}
-      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+      <View style={{ flex: 1 }}>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -78,7 +78,9 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
             isValid,
             dirty,
           }) => (
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView
+              style={{ flex: 1, justifyContent: 'space-between' }}
+            >
               <View style={{ padding: 32, marginTop: 64 }}>
                 {/* Enter your Hedera Account ID */}
                 <View>
@@ -88,36 +90,7 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
                   <Text style={{ color: color.lightGray }}>
                     Example Format: 0.0.12345
                   </Text>
-                  {/*
-          
-                    <TextInput
-                      ref={pinRef}
-                      style={[
-                        styles.inputBox,
-                        touched.pin && errors.pin
-                          ? commonStyles.borderInvalid
-                          : commonStyles.borderNeutral,
-                      ]}
-                      placeholderTextColor="gray"
-                      placeholder="Enter PIN"
-                      onChangeText={handleChange('pin')}
-                      onBlur={handleBlur('pin')}
-                      value={values.pin}
-                      keyboardType="numeric"
-                      secureTextEntry={true}
-                      numberOfLines={1}
-                      maxLength={6}
-                      returnKeyType="next"
-                      onSubmitEditing={() => {
-                        confirmPinRef.current.focus()
-                      }}
-                    />
-                    {touched.pin && errors.pin && (
-                      <View style={{ width: 320 }}>
-                        <Text style={commonStyles.errorText}>{errors.pin}</Text>
-                      </View>
-                    )}
-                     */}
+
                   <TextInput
                     style={styles.inputBox}
                     placeholder="0.0.xxxx"
@@ -132,7 +105,9 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
                   />
                   {touched.accountId && errors.accountId && (
                     <View style={{ width: 240 }}>
-                      <Text style={commonStyles.errorText}>{errors.accountId}</Text>
+                      <Text style={commonStyles.errorText}>
+                        {errors.accountId}
+                      </Text>
                     </View>
                   )}
                 </View>
@@ -145,62 +120,78 @@ const ImportUsingPrvKeyScreen = ({ navigation }) => {
                     Keep this secret!
                   </Text>
                   <TextInput
-                  ref={prvKeyRef}
+                    ref={prvKeyRef}
                     style={styles.inputBox}
                     placeholder=""
                     placeholderTextColor={color.lightGray}
                     onChangeText={handleChange('privateKey')}
                     onBlur={handleBlur('privateKey')}
                     value={values.privateKey}
-
                   />
-                       {touched.privateKey && errors.privateKey && (
+                  {touched.privateKey && errors.privateKey && (
                     <View style={{ width: 240 }}>
-                      <Text style={commonStyles.errorText}>{errors.privateKey}</Text>
+                      <Text style={commonStyles.errorText}>
+                        {errors.privateKey}
+                      </Text>
                     </View>
                   )}
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  height: '16%',
+                  backgroundColor: color.transparentOverlay,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 16,
+                  borderTopWidth: 0.2,
+                  borderTopColor: color.lightGrayBorder,
+                }}
+              >
+                {/* Back Button */}
+                <TouchableOpacity
+                  style={styles.buttons}
+                  onPress={() => navigation.goBack()}
+                >
+                  <Text style={styles.backButtonText}>Back</Text>
+                </TouchableOpacity>
+
+                {/* transparent width between buttons */}
+                <View style={{ width: 16 }}></View>
+
+                {/* Submit Button  */}
+
+                <TouchableOpacity
+                  style={[
+                    styles.buttons,
+                    {
+                      // backgroundColor: 'rgba(255,255,255,0.05)',
+                      backgroundColor: 'rgb(107,114,128)',
+                      opacity:
+                        values.accountId !== '' &&
+                        values.privateKey !== '' &&
+                        isValid
+                          ? 1
+                          : 0.33,
+                    },
+                  ]}
+                  onPress={() => handleSubmit()}
+                  disabled={
+                    values.accountId == '' ||
+                    values.privateKey == '' ||
+                    !isValid
+                  }
+                >
+                  <Text style={styles.nextButtonText}>Next</Text>
+                </TouchableOpacity>
+
+                {/*  */}
+              </View>
             </KeyboardAvoidingView>
           )}
         </Formik>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            height: '16%',
-            backgroundColor: color.transparentOverlay,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 16,
-            borderTopWidth: 0.2,
-            borderTopColor: color.lightGrayBorder,
-          }}
-        >
-          {/* Back Button */}
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.buttonText}>Back</Text>
-          </TouchableOpacity>
-
-          {/* transparent width between buttons */}
-          <View style={{ width: 16 }}></View>
-
-          {/* Submit Button  */}
-
-          <TouchableOpacity
-            style={[
-              styles.buttons,
-              { backgroundColor: 'rgba(255,255,255,0.05)' },
-            ]}
-          >
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-
-          {/*  */}
-        </View>
       </View>
     </SafeAreaView>
   )
@@ -243,8 +234,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexGrow: 32,
   },
-  buttonText: {
+  backButtonText: {
     color: 'lightgray',
     fontWeight: 'bold',
   },
+  nextButtonText: { color: color.primaryDarkGray, fontWeight: 'bold' },
+
 })

@@ -21,6 +21,8 @@ const EnterAccountIdScreen = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
     accountId: Yup.string()
       .required('Please enter a valid Account ID')
+      .matches(/^0\.0\.[0-9]+$/, 'Invalid Account ID')
+      .min(5, "Please enter a valid Account ID")
       .typeError('Invalid Account ID'),
   })
 
@@ -89,7 +91,12 @@ const EnterAccountIdScreen = ({ navigation }) => {
                   </Text>
 
                   <TextInput
-                    style={styles.inputBox}
+                    style={[
+                      styles.inputBox,
+                      touched.accountId && errors.accountId
+                        ? commonStyles.borderInvalid
+                        : commonStyles.borderNeutral,
+                    ]}
                     placeholder="0.0.xxxx"
                     placeholderTextColor={color.lightGray}
                     onChangeText={handleChange('accountId')}
@@ -124,19 +131,24 @@ const EnterAccountIdScreen = ({ navigation }) => {
                   style={styles.buttons}
                   onPress={() => navigation.goBack()}
                 >
-                  <Text style={styles.buttonText}>Back</Text>
+                  <Text style={styles.backButtonText}>Back</Text>
                 </TouchableOpacity>
                 {/* transparent width between buttons */}
                 <View style={{ width: 16 }}></View>
                 {/* Submit Button  */}
+                {/* This will take the user to EnterMnemonic Screen */}
                 <TouchableOpacity
                   style={[
                     styles.buttons,
-                    { backgroundColor: 'rgba(255,255,255,0.05)' },
+                    {
+                      backgroundColor: 'rgb(107,114,128)',
+                      opacity: values.accountId !== "" && isValid ? 1 : 0.33,
+                    },
                   ]}
                   onPress={() => handleSubmit()}
+                  disabled={values.accountId == '' || !isValid}
                 >
-                  <Text style={styles.buttonText}>Next</Text>
+                  <Text style={styles.nextButtonText}>Next</Text>
                 </TouchableOpacity>
                 {/*  */}
               </View>
@@ -175,8 +187,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexGrow: 32,
   },
-  buttonText: {
+  backButtonText: {
     color: 'lightgray',
     fontWeight: 'bold',
   },
+  nextButtonText: { color: color.primaryDarkGray, fontWeight: 'bold' },
 })

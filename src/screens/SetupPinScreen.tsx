@@ -37,11 +37,6 @@ const SetupPinScreen = () => {
       .typeError('PIN do not match'),
   })
 
-  // const focusChange = (e) => {
-  //   if (e.target.value.length >= e.target.getAttribute('maxlength')) {
-  //     e.target.nextElementSibling.focus()
-  //   }
-  // }
 
   return (
     <View style={styles.container}>

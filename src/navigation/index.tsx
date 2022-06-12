@@ -61,7 +61,7 @@ const RootNavigator = () => {
   }
 
   return (
-    <Stack.Navigator initialRouteName="EnterAccountId">
+    <Stack.Navigator initialRouteName="NewWallet">
       {isSignedIn ? (
         <>
           <Stack.Screen
@@ -72,19 +72,21 @@ const RootNavigator = () => {
         </>
       ) : (
         <>
+          {/* Setup PIN to lock/unlock the app */}
           <Stack.Screen
             name="SetupPin"
             component={SetupPinScreen}
             options={commonOptions}
           />
 
+          {/* Create or import wallet */}
           <Stack.Screen
             name="NewWallet"
             component={NewWalletScreen}
             options={commonOptions}
           />
-          {/* Choose privateKey or mnemonic to import your account */}
 
+          {/* Choose privateKey or mnemonic to import your account */}
           <Stack.Screen
             name="ImportWallet"
             component={ImportWalletScreen}
@@ -99,8 +101,8 @@ const RootNavigator = () => {
             component={ImportWalletScreenTwo}
             options={commonOptions}
           />
-          {/* Import using Private Keys */}
 
+          {/* Import using Private Keys */}
           <Stack.Screen
             name="ImportPrv"
             component={ImportUsingPrvKeyScreen}
