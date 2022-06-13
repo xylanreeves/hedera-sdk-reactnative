@@ -15,14 +15,13 @@ import NewWalletScreen from '../screens/ImportWalletScreens/NewWalletScreen'
 import SettingScreen from '../screens/SettingScreen'
 import SetupPinScreen from '../screens/SetupPinScreen'
 import WelcomeScreen from '../screens/ImportWalletScreens/ImportWalletScreenTwo'
-//Fonts
-import AppLoading from 'expo-app-loading'
-import * as Font from 'expo-font'
 import ImportWalletScreen from '../screens/ImportWalletScreens/ImportWalletScreen'
 import ImportUsingPrvKeyScreen from '../screens/ImportWalletScreens/ImportUsingPrvKeyScreen'
 import ImportWalletScreenTwo from '../screens/ImportWalletScreens/ImportWalletScreenTwo'
 import EnterAccountIdScreen from '../screens/ImportWalletScreens/ImportUsingMnemonic.tsx/EnterAccountIdScreen'
-
+//Fonts
+import AppLoading from 'expo-app-loading'
+import * as Font from 'expo-font'
 const Stack = createNativeStackNavigator()
 
 const commonOptions = {
@@ -61,7 +60,7 @@ const RootNavigator = () => {
   }
 
   return (
-    <Stack.Navigator initialRouteName="NewWallet">
+    <Stack.Navigator initialRouteName="Mnemonic">
       {isSignedIn ? (
         <>
           <Stack.Screen

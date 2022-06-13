@@ -65,7 +65,10 @@ const EnterAccountIdScreen = ({ navigation }) => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values) => console.error(values)}
+          onSubmit={(values) => 
+            
+            //pass the accountID and navigate to mnemonic screen
+            console.error(values)}
         >
           {({
             handleChange,

@@ -12,6 +12,9 @@ export const commonStyles = StyleSheet.create({
     borderColor: 'rgb(248, 113, 113)',
     // borderColor: 'rgb(239, 68, 68)'
   },
+  borderValid: {
+    borderColor: 'rgba(107,114,128, 0.6)',
+  },
   borderNeutral: {
     borderColor: 'transparent',
     // borderColor: 'rgba(255,255,255,0.2)',
@@ -44,6 +47,6 @@ export const commonStyles = StyleSheet.create({
     padding: 16,
     justifyContent: 'center',
     borderBottomWidth: 0.2,
-    borderBottomColor: color.lightGrayBorder
+    borderBottomColor: color.lightGrayBorder,
   },
 })

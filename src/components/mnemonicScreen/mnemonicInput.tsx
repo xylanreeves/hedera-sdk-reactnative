@@ -1,32 +1,8 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
-
-export const initialValues = {
-  mnemonic1: '',
-  mnemonic2: '',
-  mnemonic3: '',
-  mnemonic4: '',
-  mnemonic5: '',
-  mnemonic6: '',
-  mnemonic7: '',
-  mnemonic8: '',
-  mnemonic9: '',
-  mnemonic10: '',
-  mnemonic11: '',
-  mnemonic12: '',
-  mnemonic13: '',
-  mnemonic14: '',
-  mnemonic15: '',
-  mnemonic16: '',
-  mnemonic17: '',
-  mnemonic18: '',
-  mnemonic19: '',
-  mnemonic20: '',
-  mnemonic21: '',
-  mnemonic22: '',
-  mnemonic23: '',
-  mnemonic24: '',
-}
+import { customFonts } from '../fonts'
+import { commonStyles } from '../../styles/commonStyles'
+import { color } from '../colors'
 
 const MnemonicInput = ({
   mnemonicId,
@@ -40,23 +16,34 @@ const MnemonicInput = ({
     <>
       <View style={styles.outerView}>
         <View style={styles.mainContainer}>
-          <View style={styles.mnemonicIdContainer}>
-            <Text style={styles.mnemonicId}>{mnemonicId}</Text>
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <View style={styles.mnemonicIdContainer}>
+              <Text style={styles.mnemonicId}>{mnemonicId}</Text>
+            </View>
           </View>
 
-          <TextInput
-            style={[
-              styles.inputBox,
-              _touched && _errors ? styles.textInvalid : styles.textValid,
-            ]}
-            placeholderTextColor="grey"
-            onChangeText={_onChangeText}
-            onBlur={_onBlur}
-            value={_value}
-          />
+          <View style={{ flexDirection: 'column', marginLeft: 8 }}>
+            <TextInput
+              style={[
+                styles.inputBox,
+                _touched && _errors
+                  ? commonStyles.borderInvalid
+                  : styles.textValid,
+              ]}
+              placeholderTextColor="grey"
+              onChangeText={_onChangeText}
+              onBlur={_onBlur}
+              value={_value}
+            />
+          </View>
         </View>
-        <View style={styles.errorContainer}>
-          {_touched && _errors &&  <Text style={styles.errorText}>Error</Text>}
+
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ width: 22 }}></View>
+          {/* error message */}
+          <View style={styles.errorContainer}>
+            {true && true && <Text style={styles.errorText}>Required</Text>}
+          </View>
         </View>
       </View>
     </>
@@ -74,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'flex-end',
     // backgroundColor: 'green',
-    marginVertical: 4,
+    marginTop: 4,
   },
   inputBox: {
     fontSize: 16,
@@ -83,8 +70,9 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: 1,
     borderRadius: 8,
-    width: 150,
-    marginLeft: 8,
+    borderColor: color.lightGrayBorder,
+    width: 164,
+    // marginBottom: 8
   },
   textValid: {
     borderColor: 'rgba(107,114,128, 0.6)',
@@ -96,8 +84,8 @@ const styles = StyleSheet.create({
   mnemonicIdContainer: {
     backgroundColor: 'rgb(31, 41, 55)',
     borderRadius: 100,
-    width: 32,
-    height: 32,
+    width: 22,
+    height: 22,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -105,13 +93,17 @@ const styles = StyleSheet.create({
     color: 'rgb(156,163,175)',
     // backgroundColor: 'rgb(31, 41, 55)',
     // borderRadius: 100,
-    padding: 4,
+    // padding: 4,
+    fontSize: 12,
+    fontFamily: customFonts.Varela,
   },
-  errorContainer:{
-    alignItems: 'center',
-    justifyContent: 'center',
+  errorContainer: {
+    marginLeft: 10,
+    height: 20,
   },
-  errorText:{
-    color: 'rgb(156,163,175)',
-  }
+  errorText: {
+    // color: 'rgb(156,163,175)',
+    color: 'rgb(248, 113, 113)',
+    // color: 'rgb(239, 68, 68)',
+  },
 })
